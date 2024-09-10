@@ -118,13 +118,18 @@ const Auth = () => {
   const handleVerifyOtp = () => {
     console.log('Login params are', authJWT, otp, session_jwt)
     captureEvent(GLOBAL_EVENTS.otp_attempted, { email, otp, authJWT })
-    authModule.login(authJWT, otp, session_jwt).then(({ session_jwt, profile_id, email }) => {
+    authModule.login(authJWT, otp, session_jwt).then(({ session_jwt, profile_id, email, is_new_user }) => {
       dispatch(login({
           session_jwt,
           profile_id,
           email,
       }))
-      captureEvent(GLOBAL_EVENTS.otp_success, { email, otp, authJWT })
+      if (is_new_user) {
+        captureEvent(GLOBAL_EVENTS.user_signup, { email, profile_id })
+      } else {
+        captureEvent(GLOBAL_EVENTS.user_login, { email, profile_id })
+      }
+      captureEvent(GLOBAL_EVENTS.otp_success, { email, otp, authJWT, is_new_user })
     }).catch((error) => {
       captureEvent(GLOBAL_EVENTS.otp_failed, { email, otp, authJWT })
     })

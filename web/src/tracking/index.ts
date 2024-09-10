@@ -8,7 +8,9 @@ export const GLOBAL_EVENTS = {
     "email_reset": "global/email_reset",
     "otp_attempted": "global/otp_attempted",
     "otp_failed": "global/otp_failed",
-    "otp_success": "global/success",
+    "otp_success": "global/otp_success",
+    "user_signup": "global/user_signup",
+    "user_login": "global/user_login",
 }
 
 export const captureEvent = (type: string, payload?: object) => {
