@@ -72,7 +72,7 @@ const useMinusXMode = () => {
 }
 
 initEventCapture()
-identifyUser(getExtensionID())
+// identifyUser(getExtensionID())
 
 const init = _.once((mode: string, ref: React.RefObject<HTMLInputElement>, isAppOpen: boolean) => {
     initEventListener();
@@ -112,6 +112,7 @@ function ProviderApp() {
             globalData['email'] = email
             globalData['profile_id'] = profileId
         }
+        identifyUser(getExtensionID(), globalData)
         setGlobalProperties(globalData)
     }, [profileId])
     // Hack to fix planning stage

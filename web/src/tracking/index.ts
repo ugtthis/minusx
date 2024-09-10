@@ -16,8 +16,8 @@ export const captureEvent = (type: string, payload?: object) => {
     captureCustomEvent(type, payload)
 }
 
-export const identifyUser = (unique_id: string) => {
-    identifyPosthogUser(unique_id)
+export const identifyUser = (unique_id: string, kv?: Record<string, string>) => {
+    identifyPosthogUser(unique_id, kv)
 }
 
 export const setGlobalProperties = (kv: Record<string, string>) => {
