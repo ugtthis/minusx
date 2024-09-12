@@ -23,7 +23,6 @@ import { updateAppMode, updateSidePanelTabName } from '../../state/settings/redu
 import { UIElementSelection } from './UIElements'
 import { capture } from '../../helpers/screenCapture/extensionCapture'
 import { addThumbnail } from '../../state/thumbnails/reducer'
-import { ImageContext } from '../../state/chat/reducer'
 import { DevToolsBox } from '../devtools';
 import { RootState } from '../../state/store'
 import { setMinusxMode } from '../../app/rpc'
@@ -31,11 +30,12 @@ import { configs } from '../../constants'
 import { getPlatformShortcut } from '../../helpers/platformCustomization'
 import { getParsedIframeInfo } from '../../helpers/origin'
 import { getApp } from '../../helpers/app'
+import { ImageContext } from '../../state/chat/types'
 
 
 const AppLoggedIn = forwardRef((_props, ref) => {
-  const sidePanelTabName = useSelector((state) => state.settings.sidePanelTabName)
-  const isDevToolsOpen = useSelector((state) => state.settings.isDevToolsOpen)
+  const sidePanelTabName = useSelector((state: RootState) => state.settings.sidePanelTabName)
+  const isDevToolsOpen = useSelector((state): RootState => state.settings.isDevToolsOpen)
   const tool = getParsedIframeInfo().tool
   const handleSnapClick = async () => {
     await setMinusxMode('open-selection')
