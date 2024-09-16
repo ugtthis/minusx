@@ -200,8 +200,8 @@ const Auth = () => {
       <VStack spacing={4} mt={5} position={"relative"}>
         <Input
           type="email"
-          placeholder="Email"
-          aria-label="Enter Email"
+          placeholder="Enter work email ID"
+          aria-label="Enter work email ID"
           value={email}
           disabled={isOTPMode ? true : false}
           onChange={(e) => setEmail(e.target.value)}
