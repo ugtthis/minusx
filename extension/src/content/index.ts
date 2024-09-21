@@ -12,6 +12,7 @@ import { once } from "lodash";
 import { appSetupConfigs } from "./apps";
 import { IframeInfo } from "./types";
 import { getExtensionID } from "../background/identifier";
+import { registerTabIdForTool } from "./RPCs/rpcCalls";
 
 const WEB_URL = configs.WEB_URL
 async function _init(localConfigs: Promise<object>) {
@@ -19,20 +20,24 @@ async function _init(localConfigs: Promise<object>) {
   const mode = get(localConfigs, "configs.mode", "open-sidepanel")
   const extensionId = await getExtensionID()
   const { tool, toolVersion, inject } = identifyToolNative()
-  if (tool == TOOLS.OTHER) {
-    return;
+  if (configs.IS_DEV) {
+    console.log('Injecting debug script')
+    setupScript(`debug.bundle.js`)
+  } else {
+    console.log = () => {}
+    console.error = () => {}
+  }
+  if (tool === TOOLS.OTHER) {
+    return
+  }
+  // Google Docs is not supported yet
+  if (tool == 'google' && toolVersion == 'docs') {
+    return
   }
   if (inject) {
     setupScript(`${tool}.bundle.js`)
   }
-  if (configs.IS_DEV) {
-    console.log('Injecting debug script')
-    setupScript(`debug.bundle.js`)
-  }
-  if (!configs.IS_DEV) {
-    console.log = () => {}
-    console.error = () => {}
-  }
+  registerTabIdForTool({ tool });
   initRPC()
   if (!configs.IS_DEV) {
     // initialise Posthog
